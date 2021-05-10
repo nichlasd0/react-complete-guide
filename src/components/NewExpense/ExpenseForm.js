@@ -6,19 +6,6 @@ const ExpenseForm = (props) => {
     const [enteredAmount, setEnteredAmount] = useState('');
     const [enteredDate, setEnteredDate] = useState('');
     
-    const submitHandler = (event) => {
-        event.preventDefault();
-        
-        const expenseData = {
-            title: enteredTitle,
-            amount: enteredAmount,
-            date: new Date(enteredDate)
-        };
-        props.onSaveExpenseData(expenseData);
-        setEnteredTitle('');
-        setEnteredAmount('');
-        setEnteredDate('');
-    };
     // const [userInput, setUserInput] = useState({
     //     enteredTitle: '',
     //     enteredAmount: '',
@@ -46,6 +33,20 @@ const ExpenseForm = (props) => {
         //     ...userInput,
         //     enteredAmount: event.target.value});
     }
+    const submitHandler = (event) => {
+        event.preventDefault();
+
+        const expenseData = {
+            title: enteredTitle,
+            amount: +enteredAmount,
+            date: new Date(enteredDate)
+        };
+        props.onSaveExpenseData(expenseData);
+        setEnteredTitle('');
+        setEnteredAmount('');
+        setEnteredDate('');
+    };
+    
     return (
 
         <form onSubmit={submitHandler}>
@@ -68,15 +69,16 @@ const ExpenseForm = (props) => {
                     <div className="new-expense__control">
                         <label>Date</label>
                         <input 
-                            type="date" 
-                            min="2019-01-01" 
-                            max="2022-12-31" 
-                            value={setEnteredDate} 
+                            type='date'
+                            min='2019-01-01' 
+                            max='2022-12-31'
+                            value={enteredDate} 
                             onChange={dateChangeHandler}/>
                     </div>
                 </div>
             </div>
             <div className="new-expense__actions">
+                <button type="button" onClick={props.onCancel}>Cancel</button>
                 <button type="submit">Add Expense</button>
             </div>
         </form>
